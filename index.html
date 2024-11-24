@@ -100,7 +100,6 @@
       text-align: center;
     }
 
-    /* Responsividade */
     @media (max-width: 768px) {
       .row {
         flex-direction: column;
@@ -229,6 +228,8 @@
   </div>
 
   <script>
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxtBuDHjsvVGmnh9yvEnrAAe_8dHcFCqwoxn8hSPdq_9yjQLdslAdPyBcyNc_kUsdpW/exec";
+
     function showSection(sectionId) {
       document.querySelectorAll('section').forEach(section => section.style.display = 'none');
       document.getElementById(sectionId).style.display = 'block';
@@ -249,12 +250,65 @@
       document.getElementById('dataDevolucao').value = retirada.toISOString().split('T')[0];
     }
 
+    async function enviarDados(sheetName, valores) {
+      try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ sheetName, values: valores }),
+        });
+
+        const result = await response.json();
+        if (result.status === "success") {
+          alert(result.message);
+        } else {
+          alert("Erro ao registrar os dados.");
+        }
+      } catch (error) {
+        console.error("Erro ao conectar ao Apps Script:", error);
+        alert("Erro ao conectar com o servidor.");
+      }
+    }
+
     function registrarAluno() {
-      alert("Aluno e empréstimo registrados com sucesso!");
+      const aluno = {
+        Nome: document.getElementById("nomeAluno").value,
+        Série: document.getElementById("serieAluno").value,
+        Sala: document.getElementById("salaAluno").value,
+        RA: document.getElementById("raAluno").value,
+        Nascimento: document.getElementById("nascimentoAluno").value,
+        Título: document.getElementById("tituloLivro").value,
+        Autor: document.getElementById("autorLivro").value,
+        Registro: document.getElementById("dataRegistro").value,
+        Devolução: document.getElementById("dataDevolucao").value,
+      };
+
+      if (!aluno.Nome || !aluno.Série || !aluno.Título || !aluno.Registro) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+      }
+
+      enviarDados("Alunos", Object.values(aluno));
     }
 
     function registrarLivro() {
-      alert("Livro registrado com sucesso!");
+      const livro = {
+        Número: document.getElementById("numeroInscricao").value,
+        Nome: document.getElementById("nomeLivroRegistro").value,
+        Autor: document.getElementById("autorLivroRegistro").value,
+        Editora: document.getElementById("editoraLivro").value,
+        Ano: document.getElementById("anoPublicacao").value,
+        Seção: document.getElementById("secaoLivro").value,
+      };
+
+      if (!livro.Número || !livro.Nome || !livro.Autor) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+      }
+
+      enviarDados("Livros", Object.values(livro));
     }
   </script>
 </body>
