@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title><b>Atividade Avaliativa - Química,<b></title>
+    <style>
+        /* Seu CSS existente permanece inalterado */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0d47a1, #aeea00);
+            color: #333;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1200px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        /* Cabeçalho da Escola */
+        .header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 28px;
+            margin: 0;
+            color: #0d47a1;
+        }
+        /* Conteúdo do Formulário */
+        .form-content {
+            margin-top: 20px;
+        }
+        .cabecalho {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .cabecalho div, .serie-dropdown {
+            width: 30%;
+            min-width: 200px;
+            margin-bottom: 10px;
+        }
+        .serie-dropdown {
+            width: 25%;
+            min-width: 150px;
+            margin-bottom: 10px;
+        }
+        /* Campo de Nome */
+        .nome-dropdown select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 2px solid #0d47a1;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0d47a1;
+            background-color: white;
+        }
+        /* Campo de Seleção e Data */
+        input[type="date"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 2px solid #0d47a1;
+            font-size: 16px;
+            font-weight: bold;
+            color: #0d47a1;
+            background-color: white;
+        }
+        /* Título da Atividade */
+        .atividade-titulo {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .atividade-titulo h2 {
+            font-size: 24px;
+            color: #0d47a1;
+            margin: 0;
+        }
+        .atividade-titulo p {
+            font-size: 18px;
+            color: #0d47a1;
+            margin: 5px 0 20px 0;
+        }
+        /* Estilo para Numeração das Questões */
+        .numero-questao {
+            color: #d32f2f;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        /* Cronômetro */
+        .relogio {
+            font-size: 14px;
+            text-align: center;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            padding: 5px 10px;
+            background-color: #ffffff;
+            color: #000000;
+            margin-right: 10px;
+            display: inline-block;
+            min-width: 60px;
+        }
+        /* Valor da Questão */
+        .valor-questao {
+            background-color: #388e3c;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 14px;
+            display: inline-block;
+            min-width: 60px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        /* Questão */
+        .questao {
+            margin-bottom: 30px;
+            background-color: #d3d3d3;
+            padding: 20px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .questao p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            color: #333333;
+        }
+        /* Campo de Resposta */
+        .resposta {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #0d47a1;
+            resize: vertical;
+            line-height: 1.5;
+            background-color: #ffffff;
+            background-image: repeating-linear-gradient(
+                to bottom,
+                #ffffff 0px,
+                #ffffff 29px,
+                #e0e0e0 29px,
+                #e0e0e0 30px
+            );
+            background-size: 100% 30px;
+            color: #0d47a1;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        /* Botão de Envio com Efeito de Afundamento */
+        button {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0d47a1;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.3s;
+        }
+        button:active {
+            transform: translateY(4px);
+            background-color: #0b3d91;
+        }
+        /* Estilo para as linhas entre questões */
+        .linha-questao {
+            border-top: 2px solid #ffffff;
+            margin: 30px 0;
+        }
+        /* Feedback */
+        .feedback-container {
+            background-color: #ffffff;
+            color: #333333;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        .feedback-container h3 {
+            margin-top: 0;
+            color: #0d47a1;
+        }
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .form-container {
+                width: 95%;
+            }
+            .cabecalho {
+                flex-direction: column;
+            }
+            .cabecalho div, .serie-dropdown {
+                width: 100%;
+            }
+            .questao {
+                padding: 15px;
+            }
+            .linha-questao {
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <!-- Cabeçalho da Escola -->
+        <div class="header">
+            <h1><B>E.E."PROFªMARIA LEONI"<B></h1>
+        </div>
+
+        <!-- Conteúdo do Formulário -->
+        <div class="form-content">
+            <div class="cabecalho">
+                <div class="nome-dropdown">
+                    <p><B>NOME:<B>
+                        <select id="nome" name="nome" required>
+                            <option value="" disabled selected>Selecione seu nome</option>
+                            <!-- Nomes serão inseridos dinamicamente via JavaScript -->
+                        </select>
+                    </p>
+                </div>
+                <div class="serie-dropdown">
+                    <p><b>SÉRIE:<b> 
+                        <select id="serie" name="serie" required>
+                            <option value="" disabled selected>Selecione a série</option>
+                            <option value="1ªSérie A">1ªSérie A</option>
+                            <option value="1ªSérie B">1ªSérie B</option>
+                            <option value="1ªSérie C">1ªSérie C</option>
+                        </select>
+                    </p>
+                </div>
+                <div class="serie-dropdown">
+                    <p><b>DATA:<b> <input type="date" id="data" name="data" required></p>
+                </div>
+            </div>
+
+            <!-- Título e Temas da Atividade -->
+            <div class="atividade-titulo">
+                <h2><b>ATIVIDADE DE QUÍMICA (4° BIMESTRE)<b></h2>
+                <p><b>TEMAS: DISTRIBUIÇÃO ELETRÔNICA, LIGAÇÕES QUÍMICAS IÔNICA E COVALENTE.<b></p>
+            </div>
+
+            <!-- Container para as Questões -->
+            <div id="questoes-container"></div>
+
+            <!-- Botão de Envio -->
+            <button onclick="enviarRespostas()">Enviar Respostas</button>
+            
+            <!-- Container para exibir o feedback -->
+            <div id="feedback-container" class="feedback-container">
+                <h3>Feedback da Autocorreção</h3>
+                <div id="feedback-content"></div>
+            </div>
+        </div>
+
+       <script>
+    // URL do seu Web App do Google Apps Script
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_OcX3IEUpUvx5sXsyn0d7QdDcHCXr6V0DwzDtv-0HfoWEMP4ENCswZx37ftDDK1U/exec'; // Substitua "SEU_WEB_APP_ID" pela sua URL real
+
+    // Lista de nomes fornecida, organizada em um array
+    const nomes = [
+        "ADRIEL RIBEIRO DO NASCIMENTO",
+        "ALESSANDRA BERNARDES DA SILVA",
+        "ALEXSANDER ALVES DOS SANTOS",
+        "ANNA CAROLINA PEREIRA DOS SANTOS",
+        "ANA BEATRIZ JACOME DA COSTA RODRIGUES",
+        "ALICE EMANUELLA FELIX DO NASCIMENTO",
+        "BEATHRIS ALVES SANTOS",
+        "ANA CAROLINA FREZARIN MONTEIRO FERNANDES DE LIMA",
+        "ANALICE GONCALVES SALATHIEL",
+        "DANIEL PAULO DE MOURA SILVA",
+        "ARTHUR DANGE OLIVEIRA",
+        "BIANCA BORRERO DOS SANTOS",
+        "EDUARDO FERNANDES RODRIGUES",
+        "BRENNO TONOLLI FESTA",
+        "CARLOS EDUARDO CASSIO CAVALCANTE",
+        "EMANUEL DE PAULA SOARES",
+        "BRUNO ALVES GOMES",
+        "CAUA MENEZES DE MELO TAVARES",
+        "EVELYN SOUZA DOS SANTOS",
+        "CARLOS LEONARDO LOURENÇO LIMA",
+        "CHRISTIAN PEREIRA DOS SANTOS",
+        "FABRICIO ALVES DA SILVA",
+        "CAROLINE RIBEIRO PINA ALVES",
+        "ESTHER DOS REIS ANDRADE",
+        "GIOVANNA CANESIN MALTA",
+        "CEZAR AUGUSTO KOZLOWSKI",
+        "FELIPE PEREIRA MUCELIN",
+        "GUILHERME RAMOS AGUIAR",
+        "DANIELLY MALVAO DE CARVALHO",
+        "GABRIEL DIAS SAMPAIO",
+        "GUSTAVO NUNEZ DE SANTANA",
+        "DIEGO DOS ANJOS COSTA",
+        "GUILHERME AUGUSTO DOS SANTOS BABAM",
+        "GUSTAVO SANTOS SANTANA",
+        "FERNANDA TAVARES",
+        "HEITTOR MAIA FAZZOLARI",
+        "HELOISA ALVES DOS SANTOS",
+        "HIGOR TOME DOS SANTOS BOMFIM RODRIGUES",
+        "ISABELLY APARECIDA ALVARENGA",
+        "HELOISA BARROS",
+        "JOAO DE OLIVEIRA BENEVIDES NETO",
+        "ISABELLY OLIVEIRA MERCHEL",
+        "ISABELLA FERNANDES SILVA",
+        "KAIO SANTOS LIMA",
+        "ISIS HERCULANO DA SILVA SANTOS",
+        "JAYANDERSON PORFIRIO DE SOUZA",
+        "KAUAN RODOLFO RODRIGUES SAMPAIO",
+        "JAIR LOPES DA SILVA JUNIOR",
+        "JOAO CARLOS RODRIGUES NETO",
+        "KAUANNY GOMES DE ALMEIDA SANTOS",
+        "KIMBERLY FERREIRA SOUZA",
+        "LAURA SOPHIA RODRIGUES CABRAL",
+        "LARISSA BEIRAL DA SILVA",
+        "LAVYNIA TOLEDO MACHADO",
+        "LETICIA ALVES DOS REIS",
+        "LAURA ALECRIM ONATE",
+        "LETICIA MARIA PEREIRA DE CERQUEIRA",
+        "LORENA BARBOSA DA SILVA",
+        "LETICIA MORELLI BRAGA DA SILVA",
+        "LUCAS EMANUEL DE OLIVEIRA",
+        "LUCAS DANIEL FELIZARDO",
+        "LIVIA PASSOS VIEIRA DA SILVA",
+        "LUCCA GOMES LOPES",
+        "MARIA CLARA MEIRELLES DE SOUZA",
+        "MARIA EDUARDA BOAVENTURA MODESTO TORRES",
+        "MARIA CLARA PRESTES BRAZ",
+        "MARIA EDUARDA DA SILVA BERNARDO",
+        "MARIANA APARECIDA MARCONDES",
+        "MARIANA CRISTINA ANTUNES",
+        "MARIANNI BENERA NEVES",
+        "MARIANA LEONI TELES",
+        "MURILO VENANCIO DA SILVA",
+        "MURILO VICENTE FONTOLAN",
+        "MATHEOS DA SILVA DIAS",
+        "NATHALY CAROLINE FERREIRA QUEIROZ",
+        "OLIVIA ISTOLOGGI DE OLIVEIRA GAUDENCIO",
+        "MURILO DOS SANTOS PINHAO",
+        "NICOLLY NUNES FONSECA",
+        "OTAVIO BELIZARIO DOS SANTOS",
+        "NICOLAS SILVA FABIANO",
+        "PEDRO HENRIQUE CORDEIRO FORSATO",
+        "RAFAELA CORREA",
+        "NICOLY HUACA DOS ANJOS",
+        "PEDRO HENRIQUE LISBOA ALVES",
+        "SAFIRA MIRIANY SANTOS DA ENCARNACAO",
+        "OTAVIO DOS SANTOS FERREIRA",
+        "RENAN BONADIAS COUTINHO",
+        "SAMUEL SILVA GARDINI",
+        "PIETRO SANTANA CARDOSO",
+        "SABRINA LETIERI MARQUES",
+        "SOFIA DE MOURA SAMPAIO",
+        "PYETRO ROSSI DA SILVA",
+        "STEFANY FERREIRA SILVA",
+        "VICTOR HENRIQUE MATIAS FRANZINO",
+        "RAFAEL JOSÉ GONCALVES DE FREITAS",
+        "STEFFANY ARAUJO DE OLIVEIRA",
+        "WENDEL CORREA CONSTANTINO DA COSTA",
+        "RAFAELA ANDREASSI GIACCHERI",
+        "VINICIUS ARAUJO BELOTTI DOS SANTOS",
+        "YASMIN BRAZ SILVA",
+        "VINICIUS REIS CARVALHO",
+        "YASMIN LIMA GONCALVES",
+        "YASMIN GOMES RIVAROLI MUNIZ",
+        "GUSTAVO FÉLIX HONORATO",
+        "GUILHERME BUENO DE CASTRO",
+        "YASMIN MORATO CARDOSO",
+        "LOHAYNE DA SILVA GUERRA",
+        "SAMARA CRISTINA DA SILVA GOMES",
+        "YSRAEL DE JESUS SOARES",
+        "KAUA ARAUJO DE FONTES",
+        "NARCIZO CARVALHO DE SOUZA",
+        "RENATO GONZAGA DOS SANTOS",
+        "KAIQUE ALVES DE FREITAS",
+        "DANIEL HENRIQUE DE VASCONCELOS MONTEIRO",
+        "THIAGO NATAN CARVALHO COSTA",
+        "RYAN RODRIGUES ALVES DA SILVA",
+        "LUCAS ANDRADE AQUINO VITAL",
+        "KAELYMEM MIRELLES SILVA",
+        "LEONARDO MIGUEL DE OLIVEIRA CRUZ",
+        "VICTOR SILVA SOUZA",
+        "ANA GABRIELA EUGENIO ALVES",
+        "JEAN SANTOS DE JESUS",
+        "RAFAEL VINICIUS DE CARVALHO",
+        "RAFAEL ALVES ALENCAR PIDORI NOBREGA",
+        "JOÃO VITOR JOSÉ PEREIRA DA SILVA",
+        "MARIA VICTORIA OREJUELA BASTARDO",
+        "KAYQUE RODRIGUES DE SOUZA SILVA",
+        "ARTHUR SANTOS CONCEICAO",
+        "ISABELLE HELENA MORAIS UGARTE",
+        "MANUELLA VASCONCELOS MARTINS",
+        "VICTOR LOPES DE MENDONÇA"
+    ];
+
+    // Ordenar os nomes alfabeticamente
+    nomes.sort();
+
+    // Inserir os nomes na dropdown
+    const nomeSelect = document.getElementById('nome');
+    nomes.forEach(nome => {
+        const option = document.createElement('option');
+        option.value = nome;
+        option.textContent = nome;
+        nomeSelect.appendChild(option);
+    });
+
+    // Array contendo as questões da atividade
+    const questoes = [
+        // Questão 1
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 05 - Distribuição Eletrônica',
+            tema: 'Distribuição Eletrônica',
+            habilidade: 'Realizar a distribuição eletrônica de elementos e relacioná-la com a formação de ligações químicas.',
+            texto: `Questão 1 - Maria está aprendendo sobre distribuição eletrônica e quer entender como se faz a organização dos elétrons ao redor do núcleo de um átomo. Para isso, ela escolheu o elemento sódio, que é um dos componentes do sal de cozinha e é essencial para o funcionamento dos nossos nervos. Pergunta: Faça a distribuição eletrônica do sódio (Na), que possui número atômico 11, e explique em qual camada está o elétron de maior energia e qual a sua importância para a formação de ligações químicas.`
+        },
+        // Questão 2
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 16 - Ligações Químicas Iônicas',
+            tema: 'Ligações Químicas Iônicas',
+            habilidade: 'Analisar a formação de ligações iônicas e suas implicações na estrutura dos compostos.',
+            texto: `Questão 2 - João está estudando a importância do oxigênio na respiração celular e quer entender como a configuração eletrônica desse elemento influencia suas propriedades químicas. O oxigênio é essencial para a oxidação e está presente no ar em forma de moléculas de O₂. Esse elemento, com número atômico 8, participa de diversas reações químicas devido à sua tendência de receber elétrons. Pergunta: Realize a distribuição eletrônica do oxigênio (O) e explique como essa organização de elétrons influencia a sua capacidade de se combinar com outros elementos. Considere também qual camada eletrônica está incompleta e como isso afeta a reatividade do oxigênio.`
+        },
+        // Questão 3
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 08 - Ligações Químicas Covalentes',
+            tema: 'Ligações Químicas Covalentes',
+            habilidade: 'Compreender a formação de ligações covalentes e sua influência nas propriedades dos compostos.',
+            texto: `Questão 3 - Em uma pesquisa sobre metais de transição, Rafael descobriu que o ferro (Fe) é muito utilizado na produção de ligas metálicas, como o aço, devido às suas propriedades físicas e à estrutura dos seus elétrons. O ferro possui número atômico 26. Pergunta: Faça a distribuição eletrônica do ferro (Fe) considerando a ordem crescente de energia dos orbitais. Em seguida, explique como a presença de elétrons nos orbitais d influencia as propriedades metálicas e a capacidade de formar diferentes compostos do ferro.`
+        },
+        // Questão 4
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 04 - Ligações Iônicas',
+            tema: 'Ligações Químicas Iônicas',
+            habilidade: 'Descrever a formação de ligações iônicas entre elementos metálicos e não metálicos.',
+            texto: `Questão 4 - Ana está estudando sobre cloreto de sódio (NaCl), que é o sal de cozinha. Ela aprendeu que o sódio e o cloro se combinam formando uma ligação iônica, que dá origem ao sal que utilizamos na alimentação. Pergunta: Explique como ocorre a ligação iônica entre o sódio (Na) e o cloro (Cl), descrevendo o que acontece com os elétrons de cada elemento. Em seguida, mostre a formação dos íons resultantes e como eles interagem para formar o NaCl.`
+        },
+        // Questão 5
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 06 - Ligações Iônicas',
+            tema: 'Ligações Químicas Iônicas',
+            habilidade: 'Analisar a formação de ligações iônicas em compostos poliatômicos.',
+            texto: `Questão 5 - Em um laboratório, cientistas estão desenvolvendo um composto para o tratamento de águas poluídas, utilizando sulfato de cálcio (CaSO₄). O cálcio, um metal alcalino-terroso, forma ligações iônicas com ânions devido à sua tendência de perder elétrons. Pergunta: Descreva o processo de formação da ligação iônica entre o cálcio (Ca) e o íon sulfato (SO₄²⁻), explicando como o cálcio atinge a estabilidade eletrônica. Em seguida, mostre a estrutura final do composto formado e a razão pela qual ele é um bom material para tratamentos em ambientes aquáticos.`
+        },
+        // Questão 6
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 09 - Ligações Iônicas Avançadas',
+            tema: 'Ligações Químicas Iônicas',
+            habilidade: 'Explicar a formação e estabilidade de ligações iônicas em compostos complexos.',
+            texto: `Questão 6 - Durante uma investigação sobre compostos iônicos, Lucas encontrou o brometo de magnésio (MgBr₂), usado em processos industriais para controlar reações químicas. O magnésio e o bromo se combinam por meio de ligações iônicas. Pergunta: Explique como ocorre a formação da ligação iônica no brometo de magnésio (MgBr₂), detalhando o processo de transferência de elétrons do magnésio para o bromo. Em seguida, analise como a diferença de eletronegatividade entre os elementos contribui para a estabilidade da ligação iônica no composto formado.`
+        },
+        // Questão 7
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 01 - Distribuição Eletrônica',
+            tema: 'Distribuição Eletrônica',
+            habilidade: 'Realizar a distribuição eletrônica de elementos e relacioná-la com suas propriedades químicas.',
+            texto: `Questão 7 - Durante uma aula de química, o professor pediu aos alunos que localizassem o elemento potássio na tabela periódica e analisassem suas propriedades. Com número atômico 19, o potássio é um metal alcalino e apresenta características típicas dessa família de elementos. Pergunta: Realize a distribuição eletrônica do potássio (K) e localize-o na tabela periódica. Explique como a sua posição na tabela e a configuração eletrônica influenciam sua reatividade e seu papel biológico nas células.`
+        },
+        // Questão 8
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 07 - Distribuição Eletrônica em Metais de Transição',
+            tema: 'Tabela Periódica e Distribuição Eletrônica',
+            habilidade: 'Compreender a distribuição eletrônica de metais de transição e suas implicações nas propriedades químicas.',
+            texto: `Questão 8 - Estudando os elementos de transição, Júlia descobriu o cobre, que tem número atômico 29. Esse elemento é usado amplamente em fiações elétricas e sistemas eletrônicos devido às suas propriedades de condução de eletricidade e calor. Pergunta: Faça a distribuição eletrônica do cobre (Cu) e identifique sua posição na tabela periódica. Em seguida, analise como a configuração eletrônica do cobre explica suas propriedades de condução e a sua capacidade de formar ligações com outros metais.`
+        },
+        // Questão 9
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 10 - Propriedades dos Metais de Transição',
+            tema: 'Tabela Periódica e Distribuição Eletrônica',
+            habilidade: 'Analisar a influência da distribuição eletrônica nas propriedades físicas e químicas dos metais de transição.',
+            texto: `Questão 9 - Em pesquisas sobre elementos essenciais para organismos vivos, Henrique encontrou o molibdênio, um elemento de número atômico 42 e comumente utilizado em ligas metálicas de alta resistência. O molibdênio é essencial para algumas enzimas que atuam na fixação de nitrogênio. Pergunta: Realize a distribuição eletrônica do molibdênio (Mo) e localize-o na tabela periódica. Em seguida, explique como a sua posição e configuração eletrônica influenciam sua capacidade de formar complexos metálicos e sua importância para processos bioquímicos, como a fixação de nitrogênio em plantas.`
+        },
+        // Questão 10
+        {
+            tipo: 'aberta',
+            numeroAula: 'Aula 11 - Impacto Ambiental das Ligações Químicas',
+            tema: 'Tabela Periódica, Distribuição Eletrônica e Impacto Ambiental',
+            habilidade: 'Integrar conhecimentos de distribuição eletrônica, ligações químicas e propriedades periódicas para analisar fenômenos ambientais complexos.',
+            texto: `Questão 10 - Distribuição Eletrônica: Enxofre (S), com número atômico 16: 2,8,6. Oxigênio (O), com número atômico 8: 2,6. Ambos possuem seis elétrons na camada de valência, necessitando de dois elétrons para completar o octeto, o que os torna altamente reativos e capazes de formar compostos como SO₂ e H₂SO₄ por meio de ligações covalentes. 2. Ligações Químicas: No SO₂, o enxofre e o oxigênio formam ligações covalentes, compartilhando elétrons para completar o octeto. Esse tipo de ligação permite ao SO₂ dissolver-se em água e reagir com ela, formando H₂SO₄, uma substância altamente ácida. No H₂SO₄, as ligações covalentes também prevalecem entre hidrogênio, enxofre e oxigênio. A polaridade da molécula contribui para sua alta solubilidade em água, o que facilita a formação da chuva ácida. 3. Tabela Periódica e Propriedades Químicas: Enxofre e oxigênio estão no mesmo grupo da Tabela Periódica (calcogênios) e possuem propriedades químicas semelhantes, como alta reatividade com metais e tendência a formar compostos com hidrogênio e oxigênio. No entanto, o enxofre, por ter maior massa e mais camadas eletrônicas, forma compostos que são mais pesados e nocivos, como o H₂SO₄, que, ao reagir com água na atmosfera, origina o H₂SO₄, um ácido responsável por efeitos corrosivos e poluentes significativos no ambiente. Objetivo da Resposta: O aluno deve demonstrar habilidade em integrar conceitos sobre a configuração eletrônica, ligações químicas e propriedades da tabela periódica, aplicando esses conhecimentos ao contexto da formação da chuva ácida e discutindo o impacto ambiental desses compostos.`
+        }
+    ];
+
+    // Objeto para armazenar os timers de cada questão
+    const timers = {};
+
+    // Função para iniciar o cronômetro de uma questão
+    function iniciarCronometro(questaoId) {
+        if (!timers[questaoId]) {
+            timers[questaoId] = { segundos: 0, intervalo: null };
+            timers[questaoId].intervalo = setInterval(() => {
+                timers[questaoId].segundos += 1;
+                atualizarCronometro(questaoId);
+                // Atualizar o campo oculto de tempo
+                const tempoInput = document.getElementById(`tempo-${questaoId}`);
+                if (tempoInput) {
+                    tempoInput.value = timers[questaoId].segundos;
+                }
+            }, 1000);
+        }
+    }
+
+    // Função para parar o cronômetro de uma questão
+    function pararCronometro(questaoId) {
+        if (timers[questaoId] && timers[questaoId].intervalo) {
+            clearInterval(timers[questaoId].intervalo);
+            timers[questaoId].intervalo = null;
+        }
+    }
+
+    // Função para formatar o tempo em mm:ss
+    function formatarTempo(segundos) {
+        const minutos = Math.floor(segundos / 60).toString().padStart(2, '0');
+        const segundosRestantes = (segundos % 60).toString().padStart(2, '0');
+        return `${minutos}:${segundosRestantes}`;
+    }
+
+    // Função para atualizar o display do cronômetro
+    function atualizarCronometro(questaoId) {
+        const relogioElement = document.getElementById(`relogio-${questaoId}`);
+        if (relogioElement) {
+            relogioElement.textContent = formatarTempo(timers[questaoId].segundos);
+        }
+    }
+
+    // Função para enviar as respostas para o backend
+    async function enviarRespostas() {
+        console.log("Iniciando envio das respostas...");
+        const nome = document.getElementById('nome').value.trim();
+        const serie = document.getElementById('serie').value;
+        const data = document.getElementById('data').value;
+
+        // Validação dos campos obrigatórios
+        if (!nome || !serie || !data) {
+            alert("Por favor, preencha todos os campos antes de enviar.");
+            console.log("Validação falhou: campos obrigatórios não preenchidos.");
+            return;
+        }
+
+        // Coleta das respostas e tempos
+        let respostas = {
+            'nome': nome,
+            'serie': serie,
+            'data': data
+        };
+
+        const totalQuestoes = questoes.length; // Número total de questões
+        for (let i = 1; i <= totalQuestoes; i++) {
+            const resposta = document.getElementById(`resposta-${i}`).value.trim();
+            const tempoInput = document.getElementById(`tempo-${i}`);
+            const tempo = tempoInput ? parseFloat(tempoInput.value) : 0;
+
+            respostas[`resposta-${i}`] = resposta;
+            respostas[`tempo-${i}`] = tempo; // Inclui o tempo gasto
+            pararCronometro(i); // Parar o cronômetro após enviar
+            console.log(`Questão ${i}: Resposta = ${resposta}, Tempo = ${tempo} segundos`);
+        }
+
+        console.log("Enviando dados para o Web App:", respostas);
+
+        try {
+            const response = await fetch(WEB_APP_URL, { // URL do seu Web App
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(respostas)
+            });
+
+            console.log("Resposta do servidor recebida:", response);
+
+            // Verificar se a resposta é válida
+            const result = await response.json();
+            console.log("Dados de resposta JSON:", result);
+
+            if (result.result === 'success') {
+                console.log("Envio bem-sucedido:", result);
+                // Limpar o formulário
+                limparFormulario(totalQuestoes);
+
+                // Exibir mensagem de sucesso
+                exibirMensagemSucesso(result.message);
+            } else {
+                // Exibir mensagem de erro específica
+                console.error("Erro na resposta do servidor:", result.message);
+                exibirMensagemErro(result.message);
+            }
+        } catch (error) {
+            console.error('Erro ao enviar respostas:', error);
+            exibirMensagemErro(`Ocorreu um erro ao processar sua solicitação.`);
+        }
+    }
+
+
+    // Função para limpar o formulário após envio
+    function limparFormulario(totalQuestoes) {
+        document.getElementById('nome').value = "";
+        document.getElementById('serie').value = "";
+        document.getElementById('data').value = "";
+        for (let i = 1; i <= totalQuestoes; i++) {
+            document.getElementById(`resposta-${i}`).value = "";
+            document.getElementById(`tempo-${i}`).value = ""; // Limpa o tempo
+            document.getElementById(`relogio-${i}`).innerText = "00:00";
+        }
+    }
+
+    // Função para exibir mensagem de sucesso
+    function exibirMensagemSucesso(mensagem) {
+        let feedbackHTML = `<p style="color: green;"><strong>${mensagem}</strong></p>`;
+
+        // Exibir o feedback na página
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackContent = document.getElementById('feedback-content');
+        feedbackContent.innerHTML = feedbackHTML;
+        feedbackContainer.style.display = 'block';
+
+        // Scroll para o feedback
+        feedbackContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Função para exibir mensagem de erro
+    function exibirMensagemErro(mensagem) {
+        const feedbackContainer = document.getElementById('feedback-container');
+        const feedbackContent = document.getElementById('feedback-content');
+        feedbackContent.innerHTML = `<p style="color: red;"><strong>${mensagem}</strong></p>`;
+        feedbackContainer.style.display = 'block';
+        feedbackContainer.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Função para gerar as questões dinamicamente na página
+    function gerarQuestoes() {
+        const container = document.getElementById('questoes-container');
+        questoes.forEach((questao, index) => {
+            const questaoId = index + 1;
+
+            const questaoDiv = document.createElement('div');
+            questaoDiv.classList.add('questao');
+
+            // Cronômetro
+            const relogioDiv = document.createElement('div');
+            relogioDiv.classList.add('relogio');
+            relogioDiv.id = `relogio-${questaoId}`;
+            relogioDiv.textContent = "00:00";
+            questaoDiv.appendChild(relogioDiv);
+
+            // Valor da Questão
+            const valorDiv = document.createElement('div');
+            valorDiv.classList.add('valor-questao');
+            valorDiv.textContent = "0,3 pts";
+            questaoDiv.appendChild(valorDiv);
+
+            // Detalhes da Questão (Aula e Tema, Tema, Habilidade)
+            const detalhesDiv = document.createElement('div');
+            detalhesDiv.classList.add('detalhes-questao');
+            detalhesDiv.innerHTML = `
+                <p><strong>Aula e Tema:</strong> ${questao.numeroAula}</p>
+                <p><strong>Tema:</strong> ${questao.tema}</p>
+                <p><strong>Habilidade:</strong> ${questao.habilidade}</p>
+            `;
+            questaoDiv.appendChild(detalhesDiv);
+
+            // Pergunta com Numeração
+            const pergunta = document.createElement('p');
+
+            // Criar elemento para número da questão
+            const numeroSpan = document.createElement('span');
+            numeroSpan.classList.add('numero-questao');
+            numeroSpan.textContent = `${questaoId}. `;
+
+            // Adicionar número e texto da questão
+            pergunta.appendChild(numeroSpan);
+            pergunta.appendChild(document.createTextNode(`${questao.texto}`));
+            questaoDiv.appendChild(pergunta);
+
+            // Campo de Resposta
+            if (questao.tipo === 'aberta') {
+                const resposta = document.createElement('textarea');
+                resposta.id = `resposta-${questaoId}`;
+                resposta.name = `resposta-${questaoId}`;
+                resposta.placeholder = "Digite sua resposta aqui...";
+                resposta.classList.add('resposta');
+                resposta.required = true;
+
+                // Iniciar o cronômetro ao focar na textarea
+                resposta.addEventListener('focus', () => iniciarCronometro(questaoId));
+                resposta.addEventListener('blur', () => pararCronometro(questaoId));
+                questaoDiv.appendChild(resposta);
+
+                // Campo de Tempo (oculto)
+                const tempoInput = document.createElement('input');
+                tempoInput.type = 'hidden';
+                tempoInput.id = `tempo-${questaoId}`;
+                tempoInput.name = `tempo-${questaoId}`;
+                questaoDiv.appendChild(tempoInput);
+            }
+
+            // Adicionar linha separadora entre questões, exceto após a última
+            if (questaoId < questoes.length) {
+                const linha = document.createElement('hr');
+                linha.classList.add('linha-questao');
+                questaoDiv.appendChild(linha);
+            }
+
+            container.appendChild(questaoDiv);
+        });
+    }
+
+    // Inicializa as questões ao carregar a página
+    window.onload = gerarQuestoes;
+    </script>
+
+</body>
+</html>
