@@ -272,26 +272,27 @@
       }
     }
 
-    function registrarAluno() {
-      const aluno = {
-        Nome: document.getElementById("nomeAluno").value,
-        Série: document.getElementById("serieAluno").value,
-        Sala: document.getElementById("salaAluno").value,
-        RA: document.getElementById("raAluno").value,
-        Nascimento: document.getElementById("nascimentoAluno").value,
-        Título: document.getElementById("tituloLivro").value,
-        Autor: document.getElementById("autorLivro").value,
-        Registro: document.getElementById("dataRegistro").value,
-        Devolução: document.getElementById("dataDevolucao").value,
-      };
+function registrarAluno() {
+  const aluno = [
+    document.getElementById("nomeAluno").value,
+    document.getElementById("serieAluno").value,
+    document.getElementById("salaAluno").value,
+    document.getElementById("raAluno").value,
+    document.getElementById("nascimentoAluno").value,
+    document.getElementById("tituloLivro").value,
+    document.getElementById("autorLivro").value,
+    document.getElementById("dataRegistro").value,
+    document.getElementById("dataDevolucao").value,
+  ];
 
-      if (!aluno.Nome || !aluno.Série || !aluno.Título || !aluno.Registro) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
-      }
+  if (aluno.some(campo => !campo)) {
+    alert("Preencha todos os campos obrigatórios!");
+    return;
+  }
 
-      enviarDados("Alunos", Object.values(aluno));
-    }
+  enviarDados("Alunos", aluno);
+}
+
 
     function registrarLivro() {
       const livro = {
