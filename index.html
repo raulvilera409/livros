@@ -228,90 +228,89 @@
   </div>
 
   <script>
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx-126uUABYd0vPj366o0k012pXDPZcgpeDIbO3qHUJa_1aAUhJ9Kp4xAlZixHmxJZU/exec";
+  // URL do servidor backend (substitua pelo correto, se necessário)
+  const BACKEND_URL = "http://localhost:3000/send-data";
 
-    function showSection(sectionId) {
-      document.querySelectorAll('section').forEach(section => section.style.display = 'none');
-      document.getElementById(sectionId).style.display = 'block';
-    }
-
-    function calcularDevolucao() {
-      const dataRegistro = document.getElementById('dataRegistro').value;
-      if (!dataRegistro) return;
-
-      const retirada = new Date(dataRegistro);
-      let diasUteisAdicionados = 0;
-
-      while (diasUteisAdicionados < 15) {
-        retirada.setDate(retirada.getDate() + 1);
-        const diaSemana = retirada.getDay();
-        if (diaSemana !== 0 && diaSemana !== 6) diasUteisAdicionados++;
-      }
-      document.getElementById('dataDevolucao').value = retirada.toISOString().split('T')[0];
-    }
-
-    async function enviarDados(sheetName, valores) {
-      try {
-        const response = await fetch(APPS_SCRIPT_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ sheetName, values: valores }),
-        });
-
-        const result = await response.json();
-        if (result.status === "success") {
-          alert(result.message);
-        } else {
-          alert("Erro ao registrar os dados.");
-        }
-      } catch (error) {
-        console.error("Erro ao conectar ao Apps Script:", error);
-        alert("Erro ao conectar com o servidor.");
-      }
-    }
-
-function registrarAluno() {
-  const aluno = [
-    document.getElementById("nomeAluno").value,
-    document.getElementById("serieAluno").value,
-    document.getElementById("salaAluno").value,
-    document.getElementById("raAluno").value,
-    document.getElementById("nascimentoAluno").value,
-    document.getElementById("tituloLivro").value,
-    document.getElementById("autorLivro").value,
-    document.getElementById("dataRegistro").value,
-    document.getElementById("dataDevolucao").value,
-  ];
-
-  if (aluno.some(campo => !campo)) {
-    alert("Preencha todos os campos obrigatórios!");
-    return;
+  function showSection(sectionId) {
+    document.querySelectorAll('section').forEach(section => section.style.display = 'none');
+    document.getElementById(sectionId).style.display = 'block';
   }
 
-  enviarDados("Alunos", aluno);
-}
+  function calcularDevolucao() {
+    const dataRegistro = document.getElementById('dataRegistro').value;
+    if (!dataRegistro) return;
 
+    const retirada = new Date(dataRegistro);
+    let diasUteisAdicionados = 0;
 
-    function registrarLivro() {
-      const livro = {
-        Número: document.getElementById("numeroInscricao").value,
-        Nome: document.getElementById("nomeLivroRegistro").value,
-        Autor: document.getElementById("autorLivroRegistro").value,
-        Editora: document.getElementById("editoraLivro").value,
-        Ano: document.getElementById("anoPublicacao").value,
-        Seção: document.getElementById("secaoLivro").value,
-      };
-
-      if (!livro.Número || !livro.Nome || !livro.Autor) {
-        alert("Preencha todos os campos obrigatórios!");
-        return;
-      }
-
-      enviarDados("Livros", Object.values(livro));
+    while (diasUteisAdicionados < 15) {
+      retirada.setDate(retirada.getDate() + 1);
+      const diaSemana = retirada.getDay();
+      if (diaSemana !== 0 && diaSemana !== 6) diasUteisAdicionados++;
     }
-  </script>
-</body>
-</html>
+    document.getElementById('dataDevolucao').value = retirada.toISOString().split('T')[0];
+  }
+
+  async function enviarDados(sheetName, valores) {
+    try {
+      // Fazendo requisição para o backend
+      const response = await fetch(BACKEND_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sheetName, values: valores }),
+      });
+
+      const result = await response.json();
+      if (result.status === "success") {
+        alert(result.message || "Dados enviados com sucesso!");
+      } else {
+        alert(result.message || "Erro ao registrar os dados.");
+      }
+    } catch (error) {
+      console.error("Erro ao conectar ao backend:", error.message);
+      alert("Erro ao conectar com o servidor.");
+    }
+  }
+
+  function registrarAluno() {
+    const aluno = [
+      document.getElementById("nomeAluno").value,
+      document.getElementById("serieAluno").value,
+      document.getElementById("salaAluno").value,
+      document.getElementById("raAluno").value,
+      document.getElementById("nascimentoAluno").value,
+      document.getElementById("tituloLivro").value,
+      document.getElementById("autorLivro").value,
+      document.getElementById("dataRegistro").value,
+      document.getElementById("dataDevolucao").value,
+    ];
+
+    if (aluno.some(campo => !campo)) {
+      alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
+
+    enviarDados("Página1", aluno);
+  }
+
+  function registrarLivro() {
+    const livro = [
+      document.getElementById("numeroInscricao").value,
+      document.getElementById("nomeLivroRegistro").value,
+      document.getElementById("autorLivroRegistro").value,
+      document.getElementById("editoraLivro").value,
+      document.getElementById("anoPublicacao").value,
+      document.getElementById("secaoLivro").value,
+    ];
+
+    if (livro.some(campo => !campo)) {
+      alert("Preencha todos os campos obrigatórios!");
+      return;
+    }
+
+    enviarDados("Página1", livro);
+  }
+</script>
 
